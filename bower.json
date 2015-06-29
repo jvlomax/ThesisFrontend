@@ -1,0 +1,23 @@
+{
+  "name": "MasterServerFrontend",
+  "version": "0.0.0",
+  "authors": [
+    "Jørn Lomax <northlomax@gmail.com>"
+  ],
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularjs": "1.4.0-build.3880+sha.2d0eda1"
+  }
+}

@@ -1,0 +1,15 @@
+input{
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+#modal-map-canvas {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+html, body{
+    height: 100%;
+}
