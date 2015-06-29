@@ -17,6 +17,7 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_eYK6njKMUhO2kUw7UIOYryIFzbCc-Eg">
     </script>
     <script>
+        USER_POSITION = null
         var marker = null
         function initialize(){
 
@@ -28,6 +29,18 @@
             var modalMap = new google.maps.Map(document.getElementById('modal-map-canvas'), mapOptions);
             var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
             window.modalMap = modalMap;
+
+
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(positionRecieved);
+            }else{
+                alert("Your browser does not support geolocation");
+            }
+
+            function positionRecieved(position){
+                USER_POSITION = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
+                map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+            }
 
             var Beacon = Parse.Object.extend("Beacon");
             var query = new Parse.Query(Beacon);
@@ -126,7 +139,9 @@
 
     </table>
     <a  class="btn btn-primary"  data-toggle="modal"  href="#new-beacon-modal">Add new beacon</a>
-    <div id="map-canvas" style="height: 400px; width: 100%;">
+    <a class="btn btn-primary" id="beacons_near" href="#">Find Beacons Near Me</a>
+<br>
+    <div id="map-canvas"  style="height: 400px; width: 100%;">
 </div>
 
 
@@ -235,6 +250,22 @@ $(document).ready(function(){
         })
 
     });
+    $("#beacons_near").click(function(){
+        console.log("click");
+        console.log("user position: " + USER_POSITION.latitude );
+        var Beacon = Parse.Object.extend("Beacon");
+        var query = new Parse.Query(Beacon);
+        query.near("coordinates", USER_POSITION);
+
+        query.find({
+           success: function(placeObjects){
+               alert("The closes object to you: " + placeObjects[0].get("location") + "and has mac address: " + placeObjects[0].get("mac_address"));
+               console.log("found locatins:" + placeObjects)
+           }
+        });
+    });
+
+
 });
 
 
